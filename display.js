@@ -24,7 +24,13 @@ const updateUI = (data) => {
     icon.setAttribute('src' , weatherIcon);
 
 
-    let timeOfDay = weather.IsDaytime? 'images/day.jpg' : 'images/night.jpg';
+   
+    let timeOfDay = null;
+    if(weather.IsDayTime === true){
+        timeOfDay = 'images/day.jpg';
+    }else{
+        timeOfDay = 'images/night.jpg'
+    }
      time.setAttribute('src' , timeOfDay);
 
     //remove d-none class if present
@@ -56,4 +62,12 @@ cityForm.addEventListener('submit' , e => {
     updateCity(city)
     .then(data => updateUI(data))
     .catch(err => console.log(err));
+
+    localStorage.setItem('city' , city);
 });
+
+if(localStorage.getItem('city')){
+    updateCity(localStorage.getItem('city'))
+    .then(data => updateUI(data))
+    .catch(err =>console.log(err))
+}
